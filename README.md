@@ -1,27 +1,38 @@
 # kafka-spark-structured-streaming-assignmen
+# 1.	Create a Spark Structured Streaming (Python or Scala) Pipeline to publish some data to Kafka 
 Created a Spark Structured Streaming code streaming_producer.py in Python to publish some data to Kafka. We use Spark Structured Streaming in Python to publish data to Kafka, I have used foreach sink to write data to Kafka. I have used  'while True' loop to generate the desired XML data. Note that this example uses a rate source for demonstration purposes.
+# 2. Using Spark Structured Streaming (Python or Scala) read the same data from Kafka and store it in HDFS Parquet - RAW Zone (use any sample XML with nested elements) 
 Created Spark Structured Streaming code streaming_consumer.py in Python to read the same data from Kafka and store it in HDFS Parquet - RAW Zone 
+# 3. Reads data from RAW Zone using an Hourly scheduled Spark Batch process and loads the final parquet file – (Processed Zone) 
+Created Spark Structured Streaming code batch_processing.py in Python to read the same data from Kafka and store it in HDFS Parquet - RAW Zone 
+# •	Create a sample Project Folder Structure for Code i.e. scripts, logs, etc. to show how it will be organized
 Createed a sample Project Folder Structure for Code in git. Included logs, etc. to show how it will be organized 
+
+#	Create sample scripts (pseudo code) and place them in the corresponding folder 
 Create sample scripts (more than pseudo code) and placed them in the corresponding folder 
+
+# Consume Kafka (Offset Maintenance and De-duplication)
 Consumer Kafka (Offset Maintenance and De-duplication) - If my application needs to maintain message ordering and prevent duplication, we can enable idempotency for your Apache Kafka producer. An idempotent producer has a unique producer ID and uses sequence IDs for each message, allowing the broker to ensure, on a per-partition basis, that it is committing ordered messages with no duplication.
 
             Set the ProducerConfig configuration parameters relevant to the idempotent producer:
 
             enable.idempotence=true
             acks=all
-Applied XML Parsing and flattening
+
+# Applied XML Parsing and flattening
 Data validation code included as well for Schema Validation , Data Type validation and Data formatting 
 created a batch_processing.py code to move data from RAW to Processed zone as well as Partitioning the data based on a date field in the final Parquet file (Processed Zone) 
 
-Apology if i have created a project and code while expectation was pseudo only but i felt like giving more
+# Apology if i have created a project and code while expectation was pseudo only but i felt like giving more
 Created shell script to submit spark job
-To ensure that only delta (new or changed) records are pulled from the RAW Zone to the Processed Zone, you can use a watermark and event time-based processing. Spark Structured Streaming allows you to handle late arriving data by using event time and watermarking, which is particularly useful in scenarios where data arrives out of order.
+
+# To ensure that only delta (new or changed) records are pulled from the RAW Zone to the Processed Zone, you can use a watermark and event time-based processing. Spark Structured Streaming allows you to handle late arriving data by using event time and watermarking, which is particularly useful in scenarios where data arrives out of order.
 Explanation:
 read_data_from_raw_zone: The function now includes withWatermark to specify the watermark duration. This setting defines how late the arriving events can be before they are considered as late.
 
 process_and_write_to_processed_zone: The mode is changed to append to handle incremental processing and only append new data to the existing Parquet files in the Processed Zone.
 
-To manage the size of the RAW Zone and prevent it from becoming very large, you can implement a data retention and archiving strategy. This strategy involves periodically moving or archiving older data to a different location or storage system. Below are steps and considerations for implementing such a strategy:
+# To manage the size of the RAW Zone and prevent it from becoming very large, you can implement a data retention and archiving strategy. This strategy involves periodically moving or archiving older data to a different location or storage system. Below are steps and considerations for implementing such a strategy:
 
 Define Retention Policy:
 
@@ -33,7 +44,7 @@ Archive or Move Old Data:
 
 Create a process or script that identifies and moves data older than the defined retention period. This process can be scheduled to run periodically.
 
-The choice between running Spark programs on a cluster or in a client mode depends on your specific use case, requirements, and the resources available. Below are considerations for both cluster mode and client mode:
+# #The choice between running Spark programs on a cluster or in a client mode depends on your specific use case, requirements, and the resources available. Below are considerations for both cluster mode and client mode:
 Development and Testing:
 
 During the development and testing phases, consider using client mode for its ease of use and quick feedback loop.
@@ -50,7 +61,7 @@ Determine whether you want to submit Spark applications directly to the cluster 
 the choice between cluster mode and client mode is not mutually exclusive. Depending on the use case, you may use client mode during development and testing and switch to cluster mode for production deployment.
 
 
-Deciding on the number of cores and executors for Spark streaming and batch jobs involves understanding the characteristics of your data, workload, and the resources available in your Spark cluster. Below are considerations for determining the number of cores and executors for Spark streaming and batch jobs:
+# Deciding on the number of cores and executors for Spark streaming and batch jobs involves understanding the characteristics of your data, workload, and the resources available in your Spark cluster. Below are considerations for determining the number of cores and executors for Spark streaming and batch jobs:
 Dynamic Resource Allocation:
 
 Leverage dynamic resource allocation features provided by Spark. This allows Spark to dynamically adjust the number of executors based on the workload. It can be beneficial in scenarios where workloads vary over time.
@@ -67,7 +78,7 @@ Scaling Out:
 
 Consider horizontally scaling out your cluster if needed. Adding more worker nodes to the cluster can provide additional resources for parallel processing.
 
-Avoiding the small file issue in the RAW and Processed Zones is crucial for efficient data storage and processing in a distributed environment. Accumulation of small files can lead to increased overhead, inefficient resource utilization, and slower query performance. Here are several strategies to ensure that you do not run into small file issues:
+# Avoiding the small file issue in the RAW and Processed Zones is crucial for efficient data storage and processing in a distributed environment. Accumulation of small files can lead to increased overhead, inefficient resource utilization, and slower query performance. Here are several strategies to ensure that you do not run into small file issues:
 
 1. File Size and Block Size:
 HDFS Block Size:
