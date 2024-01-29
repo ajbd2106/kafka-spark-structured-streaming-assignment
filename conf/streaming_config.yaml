@@ -1,0 +1,4 @@
+kafka:
+  bootstrap_servers: 'localhost:9092'
+  topic: 'sample_xml_topic'
+  starting_offset: 'earliest'  # or 'latest' based on your requirements

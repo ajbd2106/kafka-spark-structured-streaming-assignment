@@ -1,0 +1,4 @@
+hdfs:
+  raw_zone_path: 'hdfs://localhost:9000/raw_zone'
+  processed_zone_path: 'hdfs://localhost:9000/processed_zone'
+  checkpoint_location = '/path/to/checkpoint_dir'

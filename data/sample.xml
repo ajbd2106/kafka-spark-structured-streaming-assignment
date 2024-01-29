@@ -1,0 +1,25 @@
+<!-- SampleData.xml -->
+<Root>
+    <Record>
+        <ID>1</ID>
+        <Name>John Doe</Name>
+        <Details>
+            <Age>30</Age>
+            <Address>
+                <City>New York</City>
+                <State>NY</State>
+            </Address>
+        </Details>
+    </Record>
+    <Record>
+        <ID>2</ID>
+        <Name>Jane Smith</Name>
+        <Details>
+            <Age>25</Age>
+            <Address>
+                <City>San Francisco</City>
+                <State>CA</State>
+            </Address>
+        </Details>
+    </Record>
+</Root>
